@@ -33,7 +33,13 @@ if __name__ == '__main__':
                     let += 1
                 elif ord(c) >= 97 and ord(c) <= 122:
                     let += 1
-                else:
+                elif ord(c) >= 33 and ord(c) <= 47:
+                    simb += 1
+                elif ord(c) >= 58 and ord(c) <= 64:
+                    simb += 1
+                elif ord(c) >= 91 and ord(c) <= 96:
+                    simb += 1
+                elif ord(c) >= 123 and ord(c) <= 126:
                     simb += 1
         else:
             print('No hay texto')
