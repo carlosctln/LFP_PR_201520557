@@ -1,4 +1,4 @@
-#_*_ coding: utf8 _*_
+import matplotlib.pyplot as plt
 
 from codecs import EncodedFile
 from encodings import utf_8
@@ -10,6 +10,7 @@ instrucciones = ''
 aux = ''
 listaProductos = []
 aux1 = ''
+dicInstrucciones = {}
 
 def menu (opcion):
     try:    
@@ -21,8 +22,8 @@ def menu (opcion):
             print('║ 1. Cargar Data.                          ║')
             print('║ 2. Cargar Instrucciones.                 ║')
             print('║ 3. Analizar.                             ║')
-            print('║ 4. Reportes                              ║')
-            print('║ 5. Salir                                 ║')
+            print('║ 4. Reportes.                             ║')
+            print('║ 5. Salir.                                ║')
             print('╚══════════════════════════════════════════╝')
             opcion = int(input("Elige un número del menú de opciones: "))
             OpcionesDelMenu(opcion)
@@ -63,7 +64,6 @@ def LeerArchivoData():
             data = file.read()
             file.close()
             print('Lectura exitosa\n')
-            print(data)
             return data
 
 def LeerArchivoInstrucciones():
@@ -81,7 +81,6 @@ def LeerArchivoInstrucciones():
             instrucciones = file.read()
             file.close()
             print('Lectura exitosa\n')
-            print(instrucciones)
             return instrucciones
     
 def Analizar():
@@ -92,6 +91,7 @@ def Analizar():
         print('Debes cargar dos archivos uno con extensión .data y el otro con instrucción .lfp')
 
 def RecorrerArchivos():
+    # Recorremos el archivo .data
     global aux
     global aux1
     for dato in data:
@@ -119,25 +119,92 @@ def RecorrerArchivos():
                 aux1 = aux1.strip()
                 listaProductos.append(aux1)
                 aux1 = ''
-    for i in mes:
-        if i == ' ':
-            continue
-        aux1 += i
-    mes = aux1
+    aux1 = ''
+    aux1 = mes
+    mes = aux1.strip()
     aux1 = ''
 
-    for i in year:
-        if i == ' ':
-            continue
-        aux1 += i
-    year = aux1
+    aux1 = year
+    year = aux1.strip()
     aux1 = ''
+    aux =''
 
     print(mes)
     print(year)
     
     for lista in listaProductos:
         print(lista)
+    print()
+    
+    # Recorremos el archivo .lfp
+    for i in instrucciones:
+        if i =='<':
+            continue
+        elif i == '¿':
+            continue
+        elif i == '?':
+            continue
+        elif i == '>':
+            continue
+        elif i == '\n':
+            continue
+        elif i == '\t':
+            continue
+        aux += i
+
+    listaValores = []
+    listaLlaves = []
+    listIns = []
+
+    for i in aux:
+        while i != ',':
+            aux1 += i
+            break
+        if i == ',':
+            listIns.append(aux1)
+            aux1 = ''
+
+    aux = ''
+    aux1 = ''
+    cont = 0
+
+
+    for c in listIns:
+        cont = 0
+        for c1 in c:
+            cont = cont + 1
+            if c1 == ":":
+                break
+            aux += c1
+            aux1 = c
+        listaLlaves.append(aux)
+        listaValores.append(aux1[cont: len(aux1)])
+        aux = ""
+
+    aux = listaLlaves
+    listaLlaves = []
+    aux1 =listaValores
+    listaValores = []
+
+    for i in aux:
+        listaLlaves.append(i.strip())
+
+    for i in aux1:
+        listaValores.append(i.strip())
+        
+    for i in range(len(listaLlaves)):
+        dicInstrucciones[listaLlaves[i]] = listaValores[i] 
+
+    print(dicInstrucciones)
+
+    # Crear la figura y los ejes
+    fig, ax = plt.subplots()
+    # Dibujar puntos
+    ax.scatter(x = [1, 2, 3], y = [3, 2, 1])
+    # Guardar el gráfico en formato png
+    plt.savefig('diagrama-dispersion.png')
+    # Mostrar el gráfico
+    plt.show()
 
 if __name__ == '__main__':
     opcion = 0

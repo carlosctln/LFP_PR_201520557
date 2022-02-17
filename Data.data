@@ -4,5 +4,5 @@
 
 [“producto 1”, 25, 33]          ;[“producto 2”, 35.75, 10];              
 [“producto 3”, 15, 170];
-[“producto 4”, 50, ];
+[“producto 4”, 50, 180];
 )
