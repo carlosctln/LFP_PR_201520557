@@ -5,6 +5,8 @@ from encodings import utf_8
 from fileinput import filename
 from tkinter import filedialog, Tk
 
+from numpy import tile
+
 data = ''
 instrucciones = ''
 aux = ''
@@ -128,21 +130,15 @@ def RecorrerArchivos():
     year = aux1.strip()
     aux1 = ''
     aux =''
+    
+    for i in listaProductos:
+        print(i)
 
-    print(mes)
-    print(year)
-    
-    for lista in listaProductos:
-        print(lista)
-    print()
-    
     # Recorremos el archivo .lfp
     for i in instrucciones:
         if i =='<':
             continue
         elif i == '¿':
-            continue
-        elif i == '?':
             continue
         elif i == '>':
             continue
@@ -160,14 +156,13 @@ def RecorrerArchivos():
         while i != ',':
             aux1 += i
             break
-        if i == ',':
-            listIns.append(aux1)
+        if i == ',' or i == '?':
+            listIns.append(aux1.replace('?','',1))
             aux1 = ''
 
     aux = ''
     aux1 = ''
     cont = 0
-
 
     for c in listIns:
         cont = 0
@@ -195,16 +190,37 @@ def RecorrerArchivos():
     for i in range(len(listaLlaves)):
         dicInstrucciones[listaLlaves[i]] = listaValores[i] 
 
-    print(dicInstrucciones)
+    name = dicInstrucciones['Nombre']
+    title = dicInstrucciones['Titulo']
+    titleX = dicInstrucciones['TituloX']
+    titleY = dicInstrucciones['TituloY']
+    
+    title = title.replace('"', '', 2)
+    titleX = titleX.replace('"', '', 2)
+    titleY = titleY.replace('"', '', 2)
+    num = [1, 2, 3, 4, 5]
 
     # Crear la figura y los ejes
+    plt.rcdefaults()
     fig, ax = plt.subplots()
-    # Dibujar puntos
-    ax.scatter(x = [1, 2, 3], y = [3, 2, 1])
-    # Guardar el gráfico en formato png
-    plt.savefig('diagrama-dispersion.png')
+
+    # Títulos de los ejes.
+    plt.xlabel(titleX)
+    plt.ylabel(titleY)
+
+    #Título de la gráfica.
+    plt.title(title)
+
+    # Dibujar gráficas
+    #ax.plot(listaValores, listaLlaves)
+    #ax.bar(listaValores, listaLlaves)
+    ax.pie(num, labels=listaLlaves)
+
+    # Guardar el grafica en formato png
+    plt.savefig(f'./grafica.png')
+
     # Mostrar el gráfico
-    plt.show()
+    #plt.show()
 
 if __name__ == '__main__':
     opcion = 0
