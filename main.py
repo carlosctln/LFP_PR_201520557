@@ -473,7 +473,6 @@ def GraficaPie2(dicInstrucciones2, mes, year, listNomPro1, listTotPro):
 # Gráficas con tres elementos.
 def GraficaBarras3(dicInstrucciones2, listNomPro1, listTotPro):
     aux = dicInstrucciones2.keys()
-    print(aux)
     for i in aux:
         if i == 'titulo':
             name = dicInstrucciones2['nombre']
@@ -528,39 +527,114 @@ def GraficaBarras3(dicInstrucciones2, listNomPro1, listTotPro):
             plt.savefig(f'./grafica.png')
 
 def GraficaLineas3(dicInstrucciones2, listNomPro1, listTotPro):
+    aux = dicInstrucciones2.keys()
+    for i in aux:
+        if i == 'titulo':
+            name = dicInstrucciones2['nombre']
+            title = dicInstrucciones2['titulo']
+            title = title.replace('"', '', 2)
 
-    name = dicInstrucciones2['nombre']
-    title = ''
+            # Crear la figura y los ejes
+            plt.rcdefaults()
+            fig, ax = plt.subplots()
 
-    # Crear la figura y los ejes
-    plt.rcdefaults()
-    fig, ax = plt.subplots()
+            #Título de la gráfica.
+            plt.title(title)
 
-    #Título de la gráfica.
-    plt.title(title)
+            # Dibujar gráficas
+            ax.plot(listNomPro1, listTotPro)
 
-    # Dibujar gráficas
-    ax.plot(listNomPro1, listTotPro)
+            # Guardar el grafica en formato png
+            plt.savefig(f'./grafica.png')
+        elif i == 'titulox':
+            name = dicInstrucciones2['nombre']
+            titleX = dicInstrucciones2['titulox']
+            titleX = titleX.replace('"', '', 2)
 
-    # Guardar el grafica en formato png
-    plt.savefig(f'./grafica.png')
+            # Crear la figura y los ejes
+            plt.rcdefaults()
+            fig, ax = plt.subplots()
+
+            # Títulos de los ejes.
+            plt.xlabel(titleX)
+
+            # Dibujar gráficas
+            ax.plot(listNomPro1, listTotPro)
+
+            # Guardar el grafica en formato png
+            plt.savefig(f'./grafica.png')
+        elif i == 'tituloy':
+            name = dicInstrucciones2['nombre']
+            titleY = dicInstrucciones2['tituloy']
+            titleY = titleY.replace('"', '', 2)
+
+            # Crear la figura y los ejes
+            plt.rcdefaults()
+            fig, ax = plt.subplots()
+
+            # Títulos de los ejes.
+            plt.ylabel(titleY)
+
+            # Dibujar gráficas
+            ax.plot(listNomPro1, listTotPro)
+
+            # Guardar el grafica en formato png
+            plt.savefig(f'./grafica.png')
 
 def GraficaPie3(dicInstrucciones2, listNomPro1, listTotPro):
-    name = dicInstrucciones2['nombre']
-    title = ''
+    aux = dicInstrucciones2.keys()
+    for i in aux:
+        if i == 'titulo':
+            name = dicInstrucciones2['nombre']
+            title = dicInstrucciones2['titulo']
+            title = title.replace('"', '', 2)
 
-    # Crear la figura y los ejes
-    plt.rcdefaults()
-    fig, ax = plt.subplots()
+            # Crear la figura y los ejes
+            plt.rcdefaults()
+            fig, ax = plt.subplots()
 
-    #Título de la gráfica.
-    plt.title(title)
+            #Título de la gráfica.
+            plt.title(title)
 
-    # Dibujar gráficas
-    ax.pie(listTotPro, labels = listNomPro1)
+            # Dibujar gráficas
+            ax.pie(listTotPro, labels = listNomPro1)
 
-    # Guardar el grafica en formato png
-    plt.savefig(f'./grafica.png')
+            # Guardar el grafica en formato png
+            plt.savefig(f'./grafica.png')
+        elif i == 'titulox':
+            name = dicInstrucciones2['nombre']
+            titleX = dicInstrucciones2['titulox']
+            titleX = titleX.replace('"', '', 2)
+
+            # Crear la figura y los ejes
+            plt.rcdefaults()
+            fig, ax = plt.subplots()
+
+            # Títulos de los ejes.
+            plt.xlabel(titleX)
+
+            # Dibujar gráficas
+            ax.pie(listTotPro, labels = listNomPro1)
+
+            # Guardar el grafica en formato png
+            plt.savefig(f'./grafica.png')
+        elif i == 'tituloy':
+            name = dicInstrucciones2['nombre']
+            titleY = dicInstrucciones2['tituloy']
+            titleY = titleY.replace('"', '', 2)
+
+            # Crear la figura y los ejes
+            plt.rcdefaults()
+            fig, ax = plt.subplots()
+
+            # Títulos de los ejes.
+            plt.ylabel(titleY)
+
+            # Dibujar gráficas
+            ax.pie(listTotPro, labels = listNomPro1)
+
+            # Guardar el grafica en formato png
+            plt.savefig(f'./grafica.png')
 
 # Gráficas con cuatro elementos.
 def GraficaBarras4(dicInstrucciones2, mes, year, listNomPro1, listTotPro):
