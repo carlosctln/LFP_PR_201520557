@@ -324,6 +324,8 @@ def RecorrerArchivos():
                 opcion = 0
                 menu(opcion)
 
+    listNomPro = []
+
     for ele in listaProductos1:
         for i in range(len(ele)):
             listNomPro.append(ele[0])
@@ -331,7 +333,6 @@ def RecorrerArchivos():
             break
     
     aux = ''
-    listNomPro1 = []
     for ele in listNomPro:
         aux = ele.replace('“', '', 1)
         ele = aux.replace('”', '', 1)
@@ -364,7 +365,7 @@ def RecorrerArchivos():
     listaValores = []
     listIns = []
 
-    if aux > aux1:
+    if len(aux) > len(aux1):
         print('Error posiblemente hay una coma de más en el archivo .lfp')
         opcion = 0
         menu(opcion)
@@ -374,8 +375,13 @@ def RecorrerArchivos():
 
     for i in aux1:
         listaValores.append(i.strip())
+
+    aux =''
+    aux1 = ''
     
     dicInstrucciones = {}
+    dicInstrucciones1 = {}
+    dicInstrucciones2 = {}
     for i in range(len(listaLlaves)):
         dicInstrucciones[listaLlaves[i]] = listaValores[i]
     dicInstrucciones1 = sorted(dicInstrucciones.items())
@@ -456,6 +462,7 @@ def RecorrerArchivos():
     global dicReportes
     dicReportes = dicProductos
 
+
 # Gráficas con dos elementos.
 def GraficaBarras2(dicInstrucciones2, mes, year, listNomPro1, listTotPro):
     name = dicInstrucciones2['nombre']
@@ -480,6 +487,9 @@ def GraficaBarras2(dicInstrucciones2, mes, year, listNomPro1, listTotPro):
     img = Image.open(name)
     img.show()
 
+    listNomPro1 = []
+    listTotPro = []
+
 def GraficaLineas2(dicInstrucciones2, mes, year, listNomPro1, listTotPro):
     name = dicInstrucciones2['nombre']
     title = mes, ':', year
@@ -503,6 +513,9 @@ def GraficaLineas2(dicInstrucciones2, mes, year, listNomPro1, listTotPro):
     img = Image.open(name)
     img.show()
 
+    listNomPro1 = []
+    listTotPro = []
+
 def GraficaPie2(dicInstrucciones2, mes, year, listNomPro1, listTotPro):
     name = dicInstrucciones2['nombre']
     title = mes, ':', year
@@ -525,6 +538,9 @@ def GraficaPie2(dicInstrucciones2, mes, year, listNomPro1, listTotPro):
     #Abrir imágen
     img = Image.open(name)
     img.show()
+
+    listNomPro1 = []
+    listTotPro = []
 
 # Gráficas con tres elementos.
 def GraficaBarras3(dicInstrucciones2, listNomPro1, listTotPro):
@@ -605,6 +621,9 @@ def GraficaBarras3(dicInstrucciones2, listNomPro1, listTotPro):
             img = Image.open(name)
             img.show()
 
+    listNomPro1 = []
+    listTotPro = []
+
 def GraficaLineas3(dicInstrucciones2, listNomPro1, listTotPro):
     aux = dicInstrucciones2.keys()
     for i in aux:
@@ -680,6 +699,9 @@ def GraficaLineas3(dicInstrucciones2, listNomPro1, listTotPro):
             #Abrir imágen
             img = Image.open(name)
             img.show()
+    
+    listNomPro1 = []
+    listTotPro = []
 
 
 def GraficaPie3(dicInstrucciones2, listNomPro1, listTotPro):
@@ -745,6 +767,9 @@ def GraficaPie3(dicInstrucciones2, listNomPro1, listTotPro):
             #Abrir imágen
             img = Image.open(name)
             img.show()
+    
+    listNomPro1 = []
+    listTotPro = []
 
 # Gráficas con cuatro elementos.
 def GraficaBarras4(dicInstrucciones2, listNomPro1, listTotPro):
@@ -811,6 +836,9 @@ def GraficaBarras4(dicInstrucciones2, listNomPro1, listTotPro):
                     #Abrir imágen
                     img = Image.open(name)
                     img.show()
+    
+    listNomPro1 = []
+    listTotPro = []
 
 def GraficaLineas4(dicInstrucciones2, mes, year, listNomPro1, listTotPro):
     aux = dicInstrucciones2.keys()
@@ -876,6 +904,9 @@ def GraficaLineas4(dicInstrucciones2, mes, year, listNomPro1, listTotPro):
                     #Abrir imágen
                     img = Image.open(name)
                     img.show()
+    
+    listNomPro1 = []
+    listTotPro = []
 
 def GraficaPie4(dicInstrucciones2, listNomPro1, listTotPro):
     aux = dicInstrucciones2.keys()
@@ -932,6 +963,9 @@ def GraficaPie4(dicInstrucciones2, listNomPro1, listTotPro):
                     img = Image.open(name)
                     img.show()
 
+    listNomPro1 = []
+    listTotPro = []
+
 
 # Gráficas con cinco elementos.
 def GraficaBarras5(dicInstrucciones2, listNomPro1, listTotPro):
@@ -966,6 +1000,9 @@ def GraficaBarras5(dicInstrucciones2, listNomPro1, listTotPro):
     #Abrir imágen
     img = Image.open(name)
     img.show()
+
+    listNomPro1 = []
+    listTotPro = []
 
 
 def GraficaLineas5(dicInstrucciones2, listNomPro1, listTotPro):
@@ -1002,6 +1039,9 @@ def GraficaLineas5(dicInstrucciones2, listNomPro1, listTotPro):
     img = Image.open(name)
     img.show()
 
+    listNomPro1 = []
+    listTotPro = []
+
 
 def GraficaPie5(dicInstrucciones2, listNomPro1, listTotPro):
     name = dicInstrucciones2['nombre']
@@ -1027,6 +1067,9 @@ def GraficaPie5(dicInstrucciones2, listNomPro1, listTotPro):
     #Abrir imágen
     img = Image.open(name)
     img.show()
+
+    listNomPro1 = []
+    listTotPro = []
 
 
 def Reportes():
