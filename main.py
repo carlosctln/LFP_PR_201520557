@@ -1,4 +1,4 @@
-from unicodedata import name
+#from unicodedata import name
 import matplotlib.pyplot as plt
 
 from codecs import EncodedFile
@@ -47,9 +47,19 @@ def menu (opcion):
             OpcionesDelMenu(opcion)
             print("") 
     except Exception as e:
-        print()
-        print("¡Has cometido un error vuelve a intentarlo!")
-        print(type(e).__name__)
+        if opcion == 2:
+            print()
+            print('Debes cargar un archivo con extensión .lfp')
+        elif opcion == 1:
+            print()
+            print('Debes cargar un archivo con extensión .data')
+        elif opcion == 4:
+            print()
+            print('No se pueden generar reportes')
+        else:
+            print()
+            print("¡Has cometido un error vuelve a intentarlo!")
+            print(type(e).__name__)
         opcion = 0
         menu(opcion)
 
@@ -112,12 +122,15 @@ def Analizar():
         print('Archivos cargados correctamente')
         RecorrerArchivos()
     else:
-        print('Debes cargar dos archivos uno con extensión .data y el otro con instrucción .lfp')
+        print()
+        print('Debes cargar dos archivos uno con extensión .data y el otro con extensión .lfp')
 
 def RecorrerArchivos():
     # Recorremos el archivo .data
     global aux
     global aux1
+    aux = ''
+    aux1 = ''
     parA = 0
     parC = 0
     corA = 0
@@ -126,6 +139,11 @@ def RecorrerArchivos():
     mayor = 0
     intA = 0
     intC = 0
+    year = ''
+    mes = ''
+    dato = ''
+    listaProductos = []
+    listaProductos1 = []
 
     for dato in data:
         if dato == '\t':
@@ -287,7 +305,8 @@ def RecorrerArchivos():
             try:
                 ele[1] = float(ele[1])
                 ele[2] = int(ele[2])
-                tot = ele[1] * ele[2]
+                #tot = ele[1] * ele[2]
+                tot = "{0:.2f}".format(ele[1] * ele[2])
                 ele.append(tot)
                 listaProductos[i] = ele
                 break
@@ -343,13 +362,20 @@ def RecorrerArchivos():
     listaLlaves = []
     aux1 =listaValores
     listaValores = []
+    listIns = []
+
+    if aux > aux1:
+        print('Error posiblemente hay una coma de más en el archivo .lfp')
+        opcion = 0
+        menu(opcion)
 
     for i in aux:
         listaLlaves.append(i.strip())
 
     for i in aux1:
         listaValores.append(i.strip())
-        
+    
+    dicInstrucciones = {}
     for i in range(len(listaLlaves)):
         dicInstrucciones[listaLlaves[i]] = listaValores[i]
     dicInstrucciones1 = sorted(dicInstrucciones.items())
@@ -1004,13 +1030,48 @@ def GraficaPie5(dicInstrucciones2, listNomPro1, listTotPro):
 
 
 def Reportes():
-    dicProductosOr = sorted(dicProductos.items(), key=operator.itemgetter(1))
-    print(dicProductosOr)
-    print(listProG.sort())
+    menosVendidos = []
+    masVendidos = []
+    primero = []
+    ultimo = []
+
+    for ele in listProG:
+        for i in range(len(ele)):
+            ele[3] = float(ele[3])
+            #listaProductos[i] = ele
+    
+    for i in listProG:
+        i = i.reverse()
+
+    for i in range(1,len(listProG)):
+        for j in range(0,len(listProG) - i):
+            if(listProG[j + 1] < listProG[j]):
+                aux = listProG[j];
+                listProG[j] = listProG[j + 1];
+                listProG[j + 1] = aux;
+    
+    for i in listProG:
+        i = i.reverse()
+    
+    primero = listProG[0]
+    ultimo = listProG[-1]
+
+    aux = ''
+    for i in range(len(listProG)):
+        aux = listProG[i]
+
+        if aux[3] == primero[3]:
+            menosVendidos.append(listProG[i])
+        
+        if aux[3] == ultimo[3]:
+            masVendidos.append(listProG[i])
+
     if len(listProG) > 0:
         docHTML = open('Reporte.html', 'w')
         docHTML.write('\n<!DOCTYPE html>')
         docHTML.write('\n<html lang="es">')
+        docHTML.write('\n <h6>Carlos Daniel Catalan Catalan</h6>')
+        docHTML.write('\n <h6>201520557</h6>')
         docHTML.write('\n<head>')
         docHTML.write('\n<meta charset="utf-8">')
         docHTML.write('\n<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">')
@@ -1018,13 +1079,13 @@ def Reportes():
         docHTML.write('\n</head>')
         docHTML.write('\n<body>')
         docHTML.write('\n<div class="container">')
-        docHTML.write('\n <h4 class= "text-center">Lista de Productos</h4>')
+        docHTML.write('\n <h4 class= "text-center">Lista De Productos</h4>')
         docHTML.write('\n<div>')
         docHTML.write('\n<div class="container">')
         docHTML.write('\n<table class="table" border="1">')
         docHTML.write('\n\t <thead class="thead-dark">')
         docHTML.write('\n\t\t <tr>')
-        docHTML.write('\n\t\t\t<th scope = "col">Procutos</th>')
+        docHTML.write('\n\t\t\t<th scope = "col">Productos</th>')
         docHTML.write('\n\t\t\t<th scope = "col">Precio</th>')
         docHTML.write('\n\t\t\t<th scope = "col">Cantida de Unidades</th>')
         docHTML.write('\n\t\t\t<th scope = "col">Total</th>')
@@ -1050,6 +1111,82 @@ def Reportes():
         docHTML.write('\n\t </tbody>')
         docHTML.write('\n</table>')
         docHTML.write('\n</div>')
+
+        docHTML.write('\n<div class="container">')
+        docHTML.write('\n <h4 class= "text-center">Lista De Productos Menos Vendidos</h4>')
+        docHTML.write('\n<div>')
+        docHTML.write('\n<div class="container">')
+        docHTML.write('\n<table class="table" border="1">')
+        docHTML.write('\n\t <thead class="thead-dark">')
+        docHTML.write('\n\t\t <tr>')
+        docHTML.write('\n\t\t\t<th scope = "col">Productos</th>')
+        docHTML.write('\n\t\t\t<th scope = "col">Precio</th>')
+        docHTML.write('\n\t\t\t<th scope = "col">Cantida de Unidades</th>')
+        docHTML.write('\n\t\t\t<th scope = "col">Total</th>')
+        docHTML.write('\n\t\t </tr>')
+        docHTML.write('\n\t </thead>')
+        docHTML.write('\n\t <tbody>')
+
+        if len(menosVendidos) > 0:
+            for i in menosVendidos:
+                for j in range(len(i)):
+                    docHTML.write('\n\t\t <tr class="table-success">')
+                    i[j] = i[j].replace('"', '', 2)
+                    docHTML.write('\n\t\t\t<th scope = "row">' + str(i[j]))
+                    docHTML.write('</th>')
+                    docHTML.write('\n\t\t\t<td>'+str(i[j+1]))
+                    docHTML.write('</td>')
+                    docHTML.write('\n\t\t\t<td>' + str(i[j+2]))
+                    docHTML.write('</td>')
+                    docHTML.write('\n\t\t\t<td>' + str(i[j+3]))
+                    docHTML.write('</td>')
+                    docHTML.write('\n\t\t </tr>')
+                    break
+            
+        docHTML.write('\n\t </tbody>')
+        docHTML.write('\n</table>')
+        docHTML.write('\n</div>')
+        docHTML.write('\n</body>')
+        docHTML.write('\n</html>')
+
+        docHTML.write('\n<div class="container">')
+        docHTML.write('\n <h4 class= "text-center">Lista De Productos Mas Vendidos</h4>')
+        docHTML.write('\n<div>')
+        docHTML.write('\n<div class="container">')
+        docHTML.write('\n<table class="table" border="1">')
+        docHTML.write('\n\t <thead class="thead-dark">')
+        docHTML.write('\n\t\t <tr>')
+        docHTML.write('\n\t\t\t<th scope = "col">Productos</th>')
+        docHTML.write('\n\t\t\t<th scope = "col">Precio</th>')
+        docHTML.write('\n\t\t\t<th scope = "col">Cantida de Unidades</th>')
+        docHTML.write('\n\t\t\t<th scope = "col">Total</th>')
+        docHTML.write('\n\t\t </tr>')
+        docHTML.write('\n\t </thead>')
+        docHTML.write('\n\t <tbody>')
+
+        if len(masVendidos) > 0:
+            for i in masVendidos:
+                for j in range(len(i)):
+                    docHTML.write('\n\t\t <tr class="table-success">')
+                    i[j] = i[j].replace('"', '', 2)
+                    docHTML.write('\n\t\t\t<th scope = "row">' + str(i[j]))
+                    docHTML.write('</th>')
+                    docHTML.write('\n\t\t\t<td>'+str(i[j+1]))
+                    docHTML.write('</td>')
+                    docHTML.write('\n\t\t\t<td>' + str(i[j+2]))
+                    docHTML.write('</td>')
+                    docHTML.write('\n\t\t\t<td>' + str(i[j+3]))
+                    docHTML.write('</td>')
+                    docHTML.write('\n\t\t </tr>')
+                    break
+            
+        docHTML.write('\n\t </tbody>')
+        docHTML.write('\n</table>')
+        docHTML.write('\n</div>')
+        docHTML.write('\n</body>')
+        docHTML.write('\n</html>')
+        
+
         docHTML.write('\n</body>')
         docHTML.write('\n</html>')
         docHTML.close()
@@ -1065,7 +1202,7 @@ def Reportes():
         docHTML.write('\n<title>Reporte de Ventas</title>')
         docHTML.write('\n</head>')
         docHTML.write('\n<body>')
-        docHTML.write('\n <h6>Carlos Daniel Catalán Catalán</h6>')
+        docHTML.write('\n <h6>Carlos Daniel Catalan Catalan</h6>')
         docHTML.write('\n <h6>201520557</h6>')
         docHTML.write('\n <h4>No hay datos que mostar</h4>')
         docHTML.write('\n</body>')
